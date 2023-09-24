@@ -64,7 +64,6 @@ public class DealerService {
 
     public ArrayList<Object> piocherCartes(ArrayList<ArrayList<Integer>> shuffledList){
         int randomNumber=random.nextInt(13)+20;//min is 20 max is 32
-        System.out.println(randomNumber);
         ArrayList<ArrayList<Integer>> piocheList=new ArrayList<ArrayList<Integer>>();
         for(int i=0;i<randomNumber;i++){
             piocheList.add(shuffledList.get(i));
@@ -78,5 +77,10 @@ public class DealerService {
         result.add(piocheList);
         result.add(gameList);
         return result;
+    }
+
+    public ArrayList<ArrayList<Integer>> defausser_cartes(ArrayList<ArrayList<Integer>> piocheCards, ArrayList<ArrayList<Integer>> playerDealerCards ){
+        playerDealerCards.addAll(piocheCards);
+        return playerDealerCards;
     }
 }
