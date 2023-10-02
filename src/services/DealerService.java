@@ -1,7 +1,7 @@
 package services;
 
 import com.sun.jdi.IntegerType;
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 public class DealerService {
@@ -9,31 +9,17 @@ public class DealerService {
     private Random random=new Random();
     public ArrayList<ArrayList<Integer>> createNextCards(int cardSymbol,int cardNumber){
         ArrayList<ArrayList<Integer>> cardsGame=new ArrayList<ArrayList<Integer>>();
-        for(int i=13*(cardSymbol-1)+(cardNumber-1);i<52;i++){
-            if(i<13){
+        for(int i=cardSymbol;i<=4;i++){
+            for(int j=cardNumber;j<=13;j++){
                 ArrayList<Integer> card=new ArrayList<Integer>();
-                card.add(1);
-                card.add(i+1);
-                cardsGame.add(card);
-            }else if(i>=13 && i<26){
-                ArrayList<Integer> card=new ArrayList<Integer>();
-                card.add(2);
-                card.add(i-12);
-                cardsGame.add(card);
-            }else if(i>=26 && i<39){
-                ArrayList<Integer> card=new ArrayList<Integer>();
-                card.add(3);
-                card.add(i-25);
-                cardsGame.add(card);
-            }else{
-                ArrayList<Integer> card=new ArrayList<Integer>();
-                card.add(4);
-                card.add(i-38);
+                card.add(i);
+                card.add(j);
                 cardsGame.add(card);
             }
-
+            cardNumber=1;
         }
         return cardsGame;
+
     }
 
     public ArrayList<Object> extraire_ieme_carte (ArrayList<ArrayList<Integer>> cardsList,int randomIndex){
@@ -57,7 +43,7 @@ public class DealerService {
             ArrayList<Object> result =tirer_une_carte(cardsList);
             ArrayList<Integer> extractedCard=(ArrayList<Integer>)result.get(0);
             shuffledList.add(0,extractedCard);
-            cardsList=(ArrayList<ArrayList<Integer>>)result.get(1);
+            //cardsList=(ArrayList<ArrayList<Integer>>)result.get(1);
         }
         return shuffledList;
     }
@@ -83,4 +69,67 @@ public class DealerService {
         playerDealerCards.addAll(piocheCards);
         return playerDealerCards;
     }
+
+    public List<Object> giveFirstCards(ArrayList<ArrayList<Integer>> gameList){
+
+        ArrayList<ArrayList<Integer>> playerCards=new ArrayList<ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer>> dealerCards=new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<3;i++){
+            if(i<2){
+                int randomIndex = random.nextInt(gameList.size());
+                playerCards.add(gameList.remove(randomIndex));
+            }else{
+                int randomIndex = random.nextInt(gameList.size());
+                dealerCards.add(gameList.remove(randomIndex));
+            }
+
+        }
+
+        return List.of(dealerCards,playerCards);
+    }
+
+    public Integer cardValue(Integer cardNumber){
+        if(cardNumber==11 || cardNumber==12 || cardNumber==13){
+            return 10;
+        }
+        return cardNumber;
+    }
+
+    public String cardLetter(Integer cardNumber){
+        switch(cardNumber){
+            case 1:
+                return "A";
+            case 11:
+                return "J";
+            case 12:
+                return "Q";
+            case 13:
+                return "K";
+        }
+        return String.valueOf(cardNumber);
+    }
+
+    public String cardSymbol(Integer symbolNumber){
+        switch(symbolNumber){
+            case 1:
+                return "\u2764";//heart
+            case 2:
+                return "\u2666";//diamond
+            case 3:
+                return "\u2660";//spade
+            case 4:
+                return "\u2663";//club
+        }
+        return "";
+    }
+
+    public ArrayList<Integer> giveCard(ArrayList<ArrayList<Integer>> gameList){
+        if(!gameList.isEmpty()){
+            int cardIndex=(gameList.size())-1;
+            ArrayList<Integer> card= gameList.remove(cardIndex);
+            return card;
+        }
+        return null;
+    }
+
 }
