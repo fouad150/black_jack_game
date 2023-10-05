@@ -15,7 +15,7 @@ public class DealerController {
         }else if(playerSum<dealerSum){
             System.out.println("dealer won");
         }else{
-            System.out.printf("result of the round is a draw");
+            System.out.println("result of the round is a draw");
         }
     }
 

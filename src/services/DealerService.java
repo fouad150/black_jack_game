@@ -23,8 +23,7 @@ public class DealerService {
     }
 
     public ArrayList<Object> extraire_ieme_carte (ArrayList<ArrayList<Integer>> cardsList,int randomIndex){
-        ArrayList<Integer> extractedCard=cardsList.get(randomIndex);
-        cardsList.remove(randomIndex);
+        ArrayList<Integer> extractedCard=cardsList.remove(randomIndex);
         ArrayList<Object> result=new ArrayList<Object>();
         result.add(extractedCard);
         result.add(cardsList);

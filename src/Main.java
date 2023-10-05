@@ -14,18 +14,17 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<ArrayList<Integer>> cardsList = dealerController.createNextCards(1, 1);
-        //cardsList.forEach(card->System.out.println(card));
 
         //first while
         int piocher = 1;
         while (piocher == 1) {
             //System.out.println("--------cardsList: "+cardsList);
             //System.out.println(cardsList.size());
-            ArrayList<ArrayList<Integer>> result1 = dealerService.melanger_jeu_cartes(cardsList);
+            ArrayList<ArrayList<Integer>> shuffledCards = dealerService.melanger_jeu_cartes(cardsList);
             //result1.forEach((x) -> System.out.println(x));
-            ArrayList<Object> result2 = dealerService.piocherCartes(result1);
-            ArrayList<ArrayList<Integer>> piocheList = (ArrayList<ArrayList<Integer>>) result2.get(0);
-            ArrayList<ArrayList<Integer>> gameList = (ArrayList<ArrayList<Integer>>) result2.get(1);
+            ArrayList<Object> resultList = dealerService.piocherCartes(shuffledCards);
+            ArrayList<ArrayList<Integer>> piocheList = (ArrayList<ArrayList<Integer>>) resultList.get(0);
+            ArrayList<ArrayList<Integer>> gameList = (ArrayList<ArrayList<Integer>>) resultList.get(1);
             System.out.println(gameList.size());
 
             ArrayList<ArrayList<Integer>> allPlayerCards = new ArrayList<ArrayList<Integer>>();
@@ -33,10 +32,11 @@ public class Main {
 
 
             int repeat = 1;
-            do {
+            while(repeat==1) {
                 if (gameList.size() >= 3) {
+                    //System.out.println("size: "+gameList.size());
                     List<Object> firstCards = dealerService.giveFirstCards(gameList);
-                    System.out.println(gameList.size());
+                    //System.out.println(gameList.size());
                     ArrayList<ArrayList<Integer>> playerCards = (ArrayList<ArrayList<Integer>>) firstCards.get(1);
                     ArrayList<ArrayList<Integer>> dealerCards = (ArrayList<ArrayList<Integer>>) firstCards.get(0);
 
@@ -65,6 +65,7 @@ public class Main {
                             int dealerSum = dealerController.dealerHit(gameList, dealerCards);
                             if (dealerSum == 0) {
                                 System.out.println();
+                                dealerController.showDealerCards(dealerCards);
                                 System.out.println("no remaining cards for dealer so you won");//player won
                                 result++;
                             } else if (dealerSum > 21) {
@@ -96,6 +97,9 @@ public class Main {
                     System.out.println("enter 1 to play other round:");
                     System.out.println("enter 0 to stop:");
                     repeat = scanner.nextInt();
+                    if(repeat==0){
+                        piocher=0;
+                    }
                 } else {
                     //defausser
                     //repeat=0
@@ -109,7 +113,7 @@ public class Main {
                 }
 
 
-            } while (repeat == 1);
+            }
 
 
         }
